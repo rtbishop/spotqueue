@@ -85,3 +85,13 @@ auth.settings.reset_password_requires_verification = True
 # >>> rows = db(db.mytable.myfield == 'value').select(db.mytable.ALL)
 # >>> for row in rows: print row.id, row.myfield
 
+######################
+# Logging
+import logging, sys
+FORMAT = "%(asctime)s %(levelname)s %(process)s %(thread)s %(funcName)s():%(lineno)d %(message)s"
+logging.basicConfig(stream=sys.stderr)
+logger = logging.getLogger(request.application)
+logger.setLevel(logging.INFO)
+
+# Let's log the request.
+logger.info("====> Request: %r %r %r %r" % (request.env.request_method, request.env.path_info, request.args, request.vars))
