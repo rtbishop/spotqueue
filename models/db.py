@@ -22,6 +22,8 @@ if not request.env.web2py_runtime_gae:
              pool_size=myconf.get('db.pool_size'),
              migrate_enabled=myconf.get('db.migrate'),
              check_reserved=['all'])
+    # I like to keep the session in the db.
+    session.connect(request, response, db=db)
 else:
     # connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore+ndb')
