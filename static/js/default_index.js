@@ -13,17 +13,14 @@ var app = function() {
         }
     };
 
-
     // Complete as needed.
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
-            has_more: false
         },
         methods: {
-            get_more: self.get_more
         }
 
     });
