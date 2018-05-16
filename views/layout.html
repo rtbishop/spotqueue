@@ -46,10 +46,23 @@
             {{else:}}
               <a class="nav-item nav-link" href="{{=URL('default', 'faq')}}">FAQ</a>
             {{pass}}
-            {{if request.function == "user":}}
-              <a class="nav-item nav-link active" href="{{=URL('default', 'user')}}">Login <span class="sr-only">(current)</span></a>
+            {{if auth.user is not None:}}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{=auth.user.first_name}}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{{=URL('default', 'user/profile')}}">Settings</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{{=URL('default', 'user/logout')}}">Logout</a>
+                </div>
+              </li>
             {{else:}}
-              <a class="nav-item nav-link" href="{{=URL('default', 'user')}}">Login</a>
+              {{if request.function == "user":}}
+                <a class="nav-item nav-link active" href="{{=URL('default', 'user')}}">Login <span class="sr-only">(current)</span></a>
+              {{else:}}
+                <a class="nav-item nav-link" href="{{=URL('default', 'user')}}">Login</a>
+              {{pass}}
             {{pass}}
           </div>
         </div>
