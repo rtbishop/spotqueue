@@ -1,16 +1,13 @@
-<html>
+<html lang="en">
   <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <link href="{{=URL('static','css/stupid.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{=URL('static','css/custom.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{=URL('static','css/calendar.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{=URL('static','css/web2py.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{=URL('static','css/myapp.css')}}" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="{{=URL('static', 'font-awesome-4.6.3/css/font-awesome.min.css')}}">
-    {{include "web2py_ajax.html"}}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <title>SpotQueue - UCSC Spotify Queueing System</title>
   </head>
   <body class="black">
     {{if response.flash:}}
@@ -18,38 +15,46 @@
       {{=response.flash}}
     </div>
     {{pass}}
-    <header class="black padded">
-      <div class="container middle max900">
-        <div class="fill middle">
-          <label class="ham padded fa fa-bars" for="menu"></label>
-          <div class="burger accordion">
-            <input type="checkbox" id="menu"/>
-            {{=MENU(response.menu,_class='menu')}}
-            <ul class="menu right">
-              <li>
-                {{=auth.navbar(mode='dropdown')}}
-              </li>
-            </ul>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg" style="min-height: 5rem">
+      <div class="container">
+        <span class="navbar-brand mb-o">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/168px-Spotify_logo_without_text.svg.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            SpotQueue
+        </span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav ml-auto">
+            <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="#">About</a>
+            <a class="nav-item nav-link" href="#">Team</a>
+            <a class="nav-item nav-link" href="#">FAQ</a>
+            <a class="nav-item nav-link" href="#">Login</a>
           </div>
         </div>
       </div>
-    </header>
+    </nav>
     <main class="white">
       {{include}}
     </main>
-    <footer class="black">
-      <div class="silver center padded social">
-        <a class="fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u={url}"></a>
-        <a class="fa fa-twitter" href="https://twitter.com/home?status={url}"></a>
-        <a class="fa fa-google" href="https://plus.google.com/share?url={url}"></a>
-      </div>
-      <div class="container padded max900">
-        <div class="fill">
-          Copyright @ 2016
+    <footer>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-2" style="font-size: 2em; letter-spacing: 0.3em; text-decoration: none !important">
+            <a href="">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://github.com/rtbishop/spotqueue">
+              <i class="fab fa-github"></i>
+            </a>
         </div>
       </div>
     </footer>
   </body>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script src="{{=URL('static','js/marked.min.js')}}"></script>
   <script src="{{=URL('static','js/vue.min.js')}}"></script>
   {{block bottomjs}}{{end}}
