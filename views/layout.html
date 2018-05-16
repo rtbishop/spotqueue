@@ -26,11 +26,31 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav ml-auto">
-            <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="#">About</a>
-            <a class="nav-item nav-link" href="#">Team</a>
-            <a class="nav-item nav-link" href="#">FAQ</a>
-            <a class="nav-item nav-link" href="{{=URL('default', 'user')}}">Login</a>
+            {{if request.function == "index":}}
+              <a class="nav-item nav-link active" href="{{=URL('default', 'index')}}">Home <span class="sr-only">(current)</span></a>
+            {{else:}}
+              <a class="nav-item nav-link" href="{{=URL('default', 'index')}}">Home</a>
+            {{pass}}
+            {{if request.function == "about":}}
+              <a class="nav-item nav-link active" href="{{=URL('default', 'about')}}">About <span class="sr-only">(current)</span></a>
+            {{else:}}
+              <a class="nav-item nav-link" href="{{=URL('default', 'about')}}">About</a>
+            {{pass}}
+            {{if request.function == "team":}}
+              <a class="nav-item nav-link active" href="{{=URL('default', 'team')}}">Team <span class="sr-only">(current)</span></a>
+            {{else:}}
+              <a class="nav-item nav-link" href="{{=URL('default', 'team')}}">Team</a>
+            {{pass}}
+            {{if request.function == "faq":}}
+              <a class="nav-item nav-link active" href="{{=URL('default', 'faq')}}">FAQ <span class="sr-only">(current)</span></a>
+            {{else:}}
+              <a class="nav-item nav-link" href="{{=URL('default', 'faq')}}">FAQ</a>
+            {{pass}}
+            {{if request.function == "user":}}
+              <a class="nav-item nav-link active" href="{{=URL('default', 'user')}}">Login <span class="sr-only">(current)</span></a>
+            {{else:}}
+              <a class="nav-item nav-link" href="{{=URL('default', 'user')}}">Login</a>
+            {{pass}}
           </div>
         </div>
       </div>
