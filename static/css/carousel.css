@@ -14,7 +14,7 @@ body {
 
 /* Carousel base class */
 .carousel {
-  margin-bottom: 4rem;
+  margin-bottom: 20rem;
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
@@ -58,6 +58,7 @@ body {
 
 .featurette-divider {
   margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+  color: rgb(132, 189, 0);
 }
 
 /* Thin out the marketing headings */
