@@ -11,8 +11,11 @@
   </head>
   <body class="black">
     {{if response.flash:}}
-    <div class="w2p_flash">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
       {{=response.flash}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
     {{pass}}
     <nav class="navbar navbar-dark bg-dark navbar-expand-lg" style="min-height: 5rem">
@@ -46,25 +49,39 @@
             {{else:}}
               <a class="nav-item nav-link" href="{{=URL('default', 'faq')}}">FAQ</a>
             {{pass}}
-            {{if request.function == "user":}}
-              <a class="nav-item nav-link active" href="{{=URL('default', 'user')}}">Login <span class="sr-only">(current)</span></a>
+            {{if auth.user is not None:}}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{=auth.user.first_name}}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{{=URL('default', 'user/profile')}}">Settings</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{{=URL('default', 'user/logout')}}">Logout</a>
+                </div>
+              </li>
             {{else:}}
-              <a class="nav-item nav-link" href="{{=URL('default', 'user')}}">Login</a>
+              {{if request.function == "user":}}
+                <a class="nav-item nav-link active" href="{{=URL('default', 'user')}}">Login <span class="sr-only">(current)</span></a>
+              {{else:}}
+                <a class="nav-item nav-link" href="{{=URL('default', 'user')}}">Login</a>
+              {{pass}}
             {{pass}}
           </div>
         </div>
       </div>
     </nav>
     <main class="white">
-      {{include}}
+      {{include}} 
+    </main>
+
     <style>
     .twitter{
       font-size: 2em !important; 
       letter-spacing: 0.3em !important; 
-      text-decoration: none !important
+      text-decoration: none !important;
     }
-    </style>  
-    </main>
+    </style> 
     <footer>
       <div class="container">
         <div class="row justify-content-center">
@@ -72,9 +89,12 @@
             <a href="">
               <i class="fab fa-twitter"></i>
             </a>
+          </div>
+          <div class="twitter">
             <a href="https://github.com/rtbishop/spotqueue">
               <i class="fab fa-github"></i>
             </a>
+          </div>
         </div>
       </div>
     </footer>

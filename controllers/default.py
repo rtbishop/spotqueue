@@ -18,6 +18,10 @@ def index():
     """
     return dict()
 
+def about():
+
+    return dict()
+
 
 def user():
     """
