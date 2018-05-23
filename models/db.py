@@ -62,6 +62,8 @@ from gluon.tools import Auth, Service, PluginManager
 
 # host names must be a list of allowed host names (glob syntax allowed)
 auth = Auth(db, host_names=myconf.get('host.names'))
+auth.settings.extra_fields['auth_user']= [
+  Field('Spotify_Key')]
 service = Service()
 plugins = PluginManager()
 
