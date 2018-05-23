@@ -18,6 +18,11 @@ def index():
     """
     return dict()
 
+
+def test():
+    return dict()
+
+
 def about():
 
     return dict()

@@ -34,6 +34,11 @@
             {{else:}}
               <a class="nav-item nav-link" href="{{=URL('default', 'index')}}">Home</a>
             {{pass}}
+            {{if request.function == "test":}}
+              <a class="nav-item nav-link active" href="{{=URL('default', 'test')}}">Test <span class="sr-only">(current)</span></a>
+            {{else:}}
+              <a class="nav-item nav-link" href="{{=URL('default', 'test')}}">Test</a>
+            {{pass}}
             {{if request.function == "about":}}
               <a class="nav-item nav-link active" href="{{=URL('default', 'about')}}">About <span class="sr-only">(current)</span></a>
             {{else:}}
