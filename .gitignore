@@ -7,4 +7,4 @@ uploads/*
 *~
 .sass-cache
 .sass-cache/*
-
+modules/credentials.py

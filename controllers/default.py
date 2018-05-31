@@ -20,7 +20,9 @@ def index():
 
 
 def test():
-    return dict()
+    # results1['items'][0]['track']['name']
+    songs = spotify().user_playlist_tracks(SPOTIFY_USER, PLAYLIST_ID, limit=100, offset=0)
+    return dict(songs=songs)
 
 
 def about():
