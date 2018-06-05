@@ -13,19 +13,31 @@ var app = function() {
         }
     };
 
+    self.get_initial_data = function () {
+        // The URL is initial_data_url
+        console.log('test');
+        $.getJSON(initial_data_url,function (data) {
+                console.log(data);
+            });
+    };
+
     // Complete as needed.
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
+          logged_in: true,
+          thing_list: [],
+          animal_list: [],
         },
         methods: {
         }
 
     });
 
-
+    $("#vue-div").show();
+    self.get_initial_data();
     return self;
 };
 
