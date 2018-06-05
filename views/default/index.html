@@ -4,21 +4,55 @@
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
     var initial_data_url = "{{=URL('api', 'get_initial_data')}}";
+    var get_songs_url = "{{=URL('api', 'get_songs')}}";
 </script>
 {{end}}
 
 <div class="main_content">
     <div id="vue-div" class="display:none">
         <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
-        <div v-if="logged_in">
-          hello
+  <main v-if="logged_in" role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <div class="container">
+          <h1 class="display-3">Hello, ${current_user}</h1>
+          <p>Thank you for using spotipy!</p>
+          <p><a class="btn btn-primary btn-med" href="#" role="button">Learn more &raquo;</a></p>
+        </div>
+      </div>
+
+      <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+          <div class="col-md-4">
+            <h2>Current Song:</h2>
+            <p>Current Song</p>
+            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+          </div>
+          <div class="col-md-4">
+            <h2>Queued Songs:</h2>
+            <ul class="container">
+              <li>song 1</li>
+              <li>song 2</li>
+            </ul>
+            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+          </div>
+          <div class="col-md-4">
+            <h2>Playlists</h2>
+            <ul class="container">
+              <li>song 1</li>
+              <li>song 2</li>
+            </ul>
+            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+          </div>
         </div>
 
-        <div>
-        <ul>
-          <li v-for="thing in thing_list">${thing}</li>
-        </ul>
-      </div>
+        <hr>
+
+      </div> <!-- /container -->
+
+    </main>
 
 
         <div v-if="!logged_in" id="carousel-example-generic" class="carousel slide" data-ride="carousel">

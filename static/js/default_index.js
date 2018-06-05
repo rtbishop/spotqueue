@@ -14,12 +14,18 @@ var app = function() {
     };
 
     self.get_initial_data = function () {
-        // The URL is initial_data_url
-        console.log('test');
         $.getJSON(initial_data_url,function (data) {
+                self.vue.current_user = data.current_user;
+                self.vue.logged_in = data.logged_in;
                 console.log(data);
-            });
-    };
+            })
+    }
+
+    self.get_songs = function(){
+      $.getJSON(get_songs_url,function (data) {
+              console.log(data);
+          });
+    }
 
     // Complete as needed.
     self.vue = new Vue({
@@ -27,17 +33,17 @@ var app = function() {
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
+          current_user: null,
           logged_in: true,
-          thing_list: [],
-          animal_list: [],
+          queue: [],
         },
         methods: {
         }
 
     });
-
-    $("#vue-div").show();
+    self.get_songs();
     self.get_initial_data();
+    // $("#vue-div").show();
     return self;
 };
 
