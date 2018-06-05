@@ -17,7 +17,8 @@ var app = function() {
         $.getJSON(initial_data_url,function (data) {
                 self.vue.current_user = data.current_user;
                 self.vue.logged_in = data.logged_in;
-                console.log(data);
+                console.log(data.logged_in);
+                console.log(self.vue.logged_in);
             })
     }
 
@@ -43,7 +44,7 @@ var app = function() {
     });
     self.get_songs();
     self.get_initial_data();
-    // $("#vue-div").show();
+    $("#vue-div").show();
     return self;
 };
 
