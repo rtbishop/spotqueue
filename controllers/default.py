@@ -8,6 +8,10 @@
 # - download is for downloading files uploaded in the db (does streaming)
 # -------------------------------------------------------------------------
 
+import spotipy
+import spotipy.util as util
+from credentials import CLIENT_ID, CLIENT_SECRET, PLAYLIST_ID, SPOTIFY_USER
+
 def index():
     """
     example action using the internationalization operator T and flash
@@ -20,8 +24,18 @@ def index():
 
 
 def test():
+    scope = "user-read-currently-playing"
+    redirect_uri = "http://127.0.0.1:8000/spotqueue/default/test"
+    token = util.prompt_for_user_token(SPOTIFY_USER, scope = scope, client_id = CLIENT_ID, client_secret = CLIENT_SECRET, redirect_uri = redirect_uri)
+    spotify = spotipy.Spotify(auth = token)
+    songs = spotify.currently_playing(market = None)
+
+
     # results1['items'][0]['track']['name']
-    songs = spotify().user_playlist_tracks(SPOTIFY_USER, PLAYLIST_ID, limit=100, offset=0)
+    # token = util.oauth2.SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
+    # cache_token = token.get_access_token()
+    # spotify = spotipy.Spotify(cache_token)
+    # songs = spotify.user_playlist_tracks(SPOTIFY_USER, PLAYLIST_ID, limit=100, offset=0)
     return dict(songs=songs)
 
 
@@ -66,5 +80,3 @@ def call():
     supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
     """
     return service()
-
-
