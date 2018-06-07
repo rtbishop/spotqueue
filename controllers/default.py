@@ -26,7 +26,12 @@ def test():
 
 
 def about():
+    return dict()
 
+def team():
+    return dict()
+
+def faq():
     return dict()
 
 
