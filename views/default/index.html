@@ -39,7 +39,17 @@
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
               </div>
               <div class="col-md-4">
-                <h2>Playlists</h2>
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      ${current_user}'s Playlists
+                    </button>
+                    <br />
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                  </div>
                 <ul class="container">
                   <li>song 1</li>
                   <li>song 2</li>
@@ -108,7 +118,7 @@
         ================================================== -->
         <!-- Wrap the rest of the page in another container to center all the content. -->
 
-          <div class="container marketing">
+          <div v-if="!logged_in" class="container marketing">
 
             <!-- Three columns of text below the carousel -->
             <br></br>
