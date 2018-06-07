@@ -8,6 +8,11 @@
 # - download is for downloading files uploaded in the db (does streaming)
 # -------------------------------------------------------------------------
 
+import base64
+import requests
+import spotipy.util as util
+from credentials import CLIENT_ID, CLIENT_SECRET, SPOTIFY_USER
+
 def index():
     """
     example action using the internationalization operator T and flash
@@ -16,13 +21,45 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    return dict()
+
+    current_song = "No song playing"
+
+    if request.vars.code:
+        code = request.vars.code
+        redirect_uri = "http://127.0.0.1:8000/spotqueue/default/index"
+        payload = {'grant_type': 'authorization_code', 'code': code, 'redirect_uri': redirect_uri}
+        encoded = base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)
+        headers = {'Authorization': 'Basic ' + encoded}
+        r = requests.post("https://accounts.spotify.com/api/token", data=payload, headers=headers)
+        response = r.json()
+        token = response['access_token']
+        headers = {'Authorization': 'Bearer ' + token}
+        r = requests.get("https://api.spotify.com/v1/me/player/currently-playing", headers=headers)
+
+        if r.content:
+            content = r.json()
+            artist = content['item']['artists'][0]['name']
+            track = content['item']['name']
+            current_song = track + " - " + artist
+
+    return dict(current_song=current_song)
+
+
+def callback():
+
+    scope = "user-read-currently-playing"
+    redirect_uri = "http://127.0.0.1:8000/spotqueue/default/index"
+    token = util.prompt_for_user_token(SPOTIFY_USER, scope, client_id=CLIENT_ID,
+                                       client_secret=CLIENT_SECRET, redirect_uri=redirect_uri)
+
+    return "ok"
 
 
 def test():
-    # results1['items'][0]['track']['name']
-    songs = spotify().user_playlist_tracks(SPOTIFY_USER, PLAYLIST_ID, limit=100, offset=0)
-    return dict(songs=songs)
+
+    song = None
+
+    return dict(songs=song)
 
 
 def about():
@@ -51,6 +88,7 @@ def user():
     to decorate functions that need access control
     also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users
     """
+    auth.settings.login_next = URL('default', 'callback')
     return dict(form=auth())
 
 
