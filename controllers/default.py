@@ -24,18 +24,18 @@ def index():
 
 
 def test():
-    scope = "user-read-currently-playing"
-    redirect_uri = "http://127.0.0.1:8000/spotqueue/default/test"
-    token = util.prompt_for_user_token(SPOTIFY_USER, scope = scope, client_id = CLIENT_ID, client_secret = CLIENT_SECRET, redirect_uri = redirect_uri)
-    spotify = spotipy.Spotify(auth = token)
-    songs = spotify.currently_playing(market = None)
+    # scope = "user-read-currently-playing"
+    # redirect_uri = "http://127.0.0.1:8000/spotqueue/default/test"
+    # token = util.prompt_for_user_token(SPOTIFY_USER, scope = scope, client_id = CLIENT_ID, client_secret = CLIENT_SECRET, redirect_uri = redirect_uri)
+    # spotify = spotipy.Spotify(auth = token)
+    # songs = spotify.currently_playing(market = None)
 
 
     # results1['items'][0]['track']['name']
-    # token = util.oauth2.SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
-    # cache_token = token.get_access_token()
-    # spotify = spotipy.Spotify(cache_token)
-    # songs = spotify.user_playlist_tracks(SPOTIFY_USER, PLAYLIST_ID, limit=100, offset=0)
+    token = util.oauth2.SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
+    cache_token = token.get_access_token()
+    spotify = spotipy.Spotify(cache_token)
+    songs = spotify.user_playlist_tracks(SPOTIFY_USER, PLAYLIST_ID, limit=100, offset=0)
     return dict(songs=songs)
 
 
