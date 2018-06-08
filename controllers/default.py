@@ -11,6 +11,7 @@
 import base64
 import requests
 import spotipy.util as util
+from itertools import islice
 from credentials import CLIENT_ID, CLIENT_SECRET, SPOTIFY_USER
 
 def index():
@@ -23,36 +24,63 @@ def index():
     """
 
     current_song = "No song playing"
+    playlist_tracks = None
 
-    if request.vars.code:
-        code = request.vars.code
-        redirect_uri = "http://127.0.0.1:8000/spotqueue/default/index"
-        payload = {'grant_type': 'authorization_code', 'code': code, 'redirect_uri': redirect_uri}
-        encoded = base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)
-        headers = {'Authorization': 'Basic ' + encoded}
-        r = requests.post("https://accounts.spotify.com/api/token", data=payload, headers=headers)
-        response = r.json()
-        token = response['access_token']
-        headers = {'Authorization': 'Bearer ' + token}
-        r = requests.get("https://api.spotify.com/v1/me/player/currently-playing", headers=headers)
+    # if request.vars.code:
+    #     code = request.vars.code
+    #     redirect_uri = "http://127.0.0.1:8000/spotqueue/default/index"
+    #     user_id = "4392745"
+    #     playlist_id = "3zJTv5sTYzrQuV2gtgO9MG"
 
-        if r.content:
-            content = r.json()
-            artist = content['item']['artists'][0]['name']
-            track = content['item']['name']
-            current_song = track + " - " + artist
+        # payload = {'grant_type': 'authorization_code', 'code': code, 'redirect_uri': redirect_uri}
+        # encoded = base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)
+        # headers = {'Authorization': 'Basic ' + encoded}
+        # r = requests.post("https://accounts.spotify.com/api/token", data=payload, headers=headers)
+        # response = r.json()
+        # token = response['access_token']
+        # headers = {'Authorization': 'Bearer ' + token}
+        # r = requests.get("https://api.spotify.com/v1/me/player/currently-playing", headers=headers)
+        # r2 = requests.get("https://api.spotify.com/v1/users/"+user_id+"/playlists/"+playlist_id+"/tracks", headers=headers)
 
-    return dict(current_song=current_song)
+    user_id = "4392745"
+    playlist_id = "3zJTv5sTYzrQuV2gtgO9MG"
+    payload = {'grant_type': 'client_credentials'}
+    encoded = base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)
+    headers = {'Authorization': 'Basic ' + encoded}
+
+    r = requests.post("https://accounts.spotify.com/api/token", data=payload, headers=headers)
+    content = r.json()
+    token = content['access_token']
+
+    headers = {'Authorization': 'Bearer ' + token}
+    r = requests.get("https://api.spotify.com/v1/users/" + user_id + "/playlists/" + playlist_id + "/tracks", headers=headers)
+
+        # if r.content:
+            # content = r.json()
+            # artist = content['item']['artists'][0]['name']
+            # track = content['item']['name']
+            # track_id = content['item']['id']
+            # current_song = track + " - " + artist
+            # content2 = r2.json()
+            # playlist_tracks = islice(content2['items'], 3)
+
+    if r.content:
+        content = r.json()
+        current_song = content['items'][0]['track']['name']
+        playlist_tracks = islice(content['items'], 4)
+
+    return dict(current_song=current_song,playlist_tracks=playlist_tracks)
 
 
 def callback():
 
-    scope = "user-read-currently-playing"
-    redirect_uri = "http://127.0.0.1:8000/spotqueue/default/index"
-    token = util.prompt_for_user_token(SPOTIFY_USER, scope, client_id=CLIENT_ID,
-                                       client_secret=CLIENT_SECRET, redirect_uri=redirect_uri)
-
-    return "ok"
+    # scope = "user-read-currently-playing"
+    # redirect_uri = "http://127.0.0.1:8000/spotqueue/default/index"
+    # token = util.prompt_for_user_token(SPOTIFY_USER, scope, client_id=CLIENT_ID,
+    #                                    client_secret=CLIENT_SECRET, redirect_uri=redirect_uri)
+    #
+    # return "ok"
+    redirect(URL('default', 'index'))
 
 
 def test():

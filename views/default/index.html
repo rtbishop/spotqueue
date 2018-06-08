@@ -32,8 +32,13 @@
               <div class="col-md-4">
                 <h2>Queued Songs:</h2>
                 <ul class="container">
-                  <li>song 1</li>
-                  <li>song 2</li>
+                  {{ if playlist_tracks is not None: }}
+                    {{ for item in playlist_tracks: }}
+                      {{ if item['track']['name'] != current_song: }}
+                        <li>{{= item['track']['name'] }}</li>
+                      {{ pass }}
+                    {{ pass }}
+                  {{ pass }}
                 </ul>
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
               </div>
