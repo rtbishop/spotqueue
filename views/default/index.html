@@ -23,37 +23,53 @@
           </div>
 
           <div class="container">
-            <!-- Example row of columns -->
             <div class="row">
               <div class="col-md-4">
                 <h2>Current Song:</h2>
+              </div>
+              <div class="col-md-4">
+                <h2>Queued Songs:</h2>
+              </div>
+              <div class="col-md-4">
+                <div class="dropdown">
+                  <h4>Select Playlist
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    ${current_user}'s Playlists
+                  </button>
+                  <br></br>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </div>
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container">
+            <!-- Example row of columns -->
+            <div class="row">
+              <div class="col-md-4">
                 <p>{{= current_song }}</p>
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
               </div>
               <div class="col-md-4">
-                <h2>Queued Songs:</h2>
-                <ul class="container">
-                  <li>song 1</li>
-                  <li>song 2</li>
-                </ul>
+                <div class="list-group">
+                  <a href="#" class="list-group-item list-group-item-action list-group-item-success">This is a success list group item</a>
+                  <a href="#" class="list-group-item list-group-item-action list-group-item-success">This is a success list group item</a>
+                  <a href="#" class="list-group-item list-group-item-action list-group-item-success">This is a success list group item</a>
+                </div>
+                <br />
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
               </div>
               <div class="col-md-4">
-                  <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      ${current_user}'s Playlists
-                    </button>
-                    <br />
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
+                  <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action list-group-item-success">This is a success list group item</a>
+                    <a href="#" class="list-group-item list-group-item-action list-group-item-success">This is a success list group item</a>
+                    <a href="#" class="list-group-item list-group-item-action list-group-item-success">This is a success list group item</a>
                   </div>
-                <ul class="container">
-                  <li>song 1</li>
-                  <li>song 2</li>
-                </ul>
+                  <br />
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
               </div>
             </div>
