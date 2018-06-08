@@ -34,7 +34,7 @@ def index():
         response = r.json()
         token = response['access_token']
         headers = {'Authorization': 'Bearer ' + token}
-        r = requests.get("https://api.spotify.com/v1/me/player/currently-playing", headers=headers)
+        r = requests.get("http://api.spotify.com/v1/me/player/currently-playing", headers=headers)
 
         if r.content:
             content = r.json()
@@ -109,5 +109,3 @@ def call():
     supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
     """
     return service()
-
-
