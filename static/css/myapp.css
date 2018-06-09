@@ -48,3 +48,6 @@
 .active-pink-3 .fa, .active-pink-4 .fa {
     color: #f48fb1;
 }
+
+
+.btn-outline-purple{color:#ce93d8;background-color:transparent;background-image:none;border-color:#ce93d8}.btn-outline-purple:hover{color:#fff;background-color:#ce93d8;border-color:#ce93d8}.btn-outline-purple.focus,.btn-outline-purple:focus{box-shadow:0 0 0 .2rem rgba(0,123,255,.5)}.btn-outline-purple.disabled,.btn-outline-purple:disabled{color:#ce93d8;background-color:transparent}.btn-outline-purple:not(:disabled):not(.disabled).active,.btn-outline-purple:not(:disabled):not(.disabled):active,.show>.btn-outline-purple.dropdown-toggle{color:#fff;background-color:#ce93d8;border-color:#ce93d8}.btn-outline-purple:not(:disabled):not(.disabled).active:focus,.btn-outline-purple:not(:disabled):not(.disabled):active:focus,.show>.btn-outline-purple.dropdown-toggle:focus{box-shadow:0 0 0 .2rem rgba(0,123,255,.5)}

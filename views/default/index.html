@@ -23,7 +23,47 @@
           </div>
 
           <div class="container">
+            <!-- Search bar row -->
             <div class="row">
+              <div class="col-md-4">
+                <h2>Search Songs:</h2>
+                <form class="form-inline active-purple-3 active-purple-4">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                  <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Track name" aria-label="Search">
+                </form>
+              </div>
+            </div>
+            <!-- Search results row -->
+            <div class="row">
+              <div class="col-md-6">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Artist</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Mark</td>
+                      <td>Otto</td>
+                      <td><button class="btn btn-outline-purple btn-sm">Add to Queue</button></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Jacob</td>
+                      <td>Thornton</td>
+                      <td><button class="btn btn-outline-purple btn-sm">Add to Queue</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- Current Song, Queued Songs, Select Playlist -->
+            <div class="row" style="margin-top: 40px">
               <div class="col-md-4">
                 <h2>Current Song:</h2>
               </div>
@@ -43,11 +83,6 @@
                   </div>
                   </h4>
                 </div>
-                <!-- Search form -->
-                <form class="form-inline active-purple-3 active-purple-4">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                  <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
-                </form>
               </div>
             </div>
           </div>
