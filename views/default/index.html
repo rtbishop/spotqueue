@@ -4,7 +4,9 @@
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
     var initial_data_url = "{{=URL('api', 'get_initial_data')}}";
-    var get_songs_url = "{{=URL('api', 'get_songs')}}";
+    //var get_songs_url = "{{=URL('api', 'get_songs')}}";
+    var search_songs_url = "{{=URL('api', 'search_songs')}}";
+    var add_to_queue_url = "{{=URL('api', 'add_to_queue')}}";
 </script>
 
 {{end}}
@@ -29,14 +31,14 @@
                 <h2>Search Songs:</h2>
                 <form class="form-inline active-purple-3 active-purple-4">
                   <i class="fa fa-search" aria-hidden="true"></i>
-                  <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Track name" aria-label="Search">
+                  <input v-model="search" v-on:blur="search_songs(search)" class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Track name" aria-label="Search">
                 </form>
               </div>
             </div>
             <!-- Search results row -->
             <div class="row">
               <div class="col-md-6">
-                <table class="table table-hover">
+                <table v-if="search_results.length > 0" class="table table-hover">
                   <thead>
                     <tr>
                       <th scope="col">#</th>
@@ -46,17 +48,11 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td><button class="btn btn-outline-purple btn-sm">Add to Queue</button></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td><button class="btn btn-outline-purple btn-sm">Add to Queue</button></td>
+                    <tr v-for="(result, index) in search_results">
+                      <th scope="row">${ ++index }</th>
+                      <td>${ result['name'] }</td>
+                      <td>${ result['artists'][0]['name'] }</td>
+                      <td><button v-on:click="add_to_queue(result['uri'])" class="btn btn-outline-purple btn-sm">Add to Queue</button></td>
                     </tr>
                   </tbody>
                 </table>
