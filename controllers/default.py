@@ -48,6 +48,7 @@ def index():
         access_token = response['access_token']
         refresh_token = response['refresh_token']
         db(db.auth_user.id == auth.user.id).update(access_token=access_token, refresh_token=refresh_token)
+        auth.user.access_token = access_token
         headers = {'Authorization': 'Bearer ' + access_token}
         r = requests.get("https://api.spotify.com/v1/me/playlists", headers=headers)
 

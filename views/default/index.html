@@ -110,7 +110,6 @@
               <div class="col-md-4">
                   {{ if auth.user is not None: }}
                     {{ if auth.user.access_token is None: }}
-                      <p>no access token yet</p>
                       <a href="{{=URL('default', 'callback')}}" class="btn btn-primary">Log in with Spotify</a>
                     {{ else: }}
                       <a href="#" class="list-group-item list-group-item-action list-group-item-success">Song #1</a>
