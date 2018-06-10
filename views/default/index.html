@@ -73,9 +73,11 @@
                     ${current_user}'s Playlists
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    {{ if user_playlists is not None: }}
+                      {{ for playlist in user_playlists: }}
+                        <a href="#" class="list-group-item list-group-item-action list-group-item-success">{{= playlist['name'] }}</a>
+                      {{ pass }}
+                    {{ pass }}
                   </div>
                   </h4>
                 </div>
@@ -107,9 +109,7 @@
               </div>
               <div class="col-md-4">
                   <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-success">This is a success list group item</a>
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-success">This is a success list group item</a>
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-success">This is a success list group item</a>
+                    <a href="#" class="list-group-item list-group-item-action list-group-item-success">None</a>
                   </div>
                   <br />
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
