@@ -30,10 +30,12 @@ def index():
     user_id = "4392745"
     playlist_id = "3zJTv5sTYzrQuV2gtgO9MG"
 
+
     #####################
     ####user playlist####
     #####################
 
+    # if access token is NOT already in the db
     if request.vars.code:
         code = request.vars.code
         redirect_uri = "http://127.0.0.1:8000/spotqueue/default/index"
@@ -43,13 +45,37 @@ def index():
         headers = {'Authorization': 'Basic ' + encoded}
         r = requests.post("https://accounts.spotify.com/api/token", data=payload, headers=headers)
         response = r.json()
-        token = response['access_token']
-        headers = {'Authorization': 'Bearer ' + token}
+        access_token = response['access_token']
+        refresh_token = response['refresh_token']
+        db(db.auth_user.id == auth.user.id).update(access_token=access_token, refresh_token=refresh_token)
+        headers = {'Authorization': 'Bearer ' + access_token}
         r = requests.get("https://api.spotify.com/v1/me/playlists", headers=headers)
 
         if r.content:
             content = r.json()
             user_playlists = content['items']
+
+    # if access token is in db
+    if auth.user is not None and auth.user.access_token:
+        headers = {'Authorization': 'Bearer ' + auth.user.access_token}
+        r = requests.get("https://api.spotify.com/v1/me/playlists", headers=headers)
+
+        if r.status_code == 200:
+            content = r.json()
+            user_playlists = content['items']
+        elif r.status_code == 401:
+            # refresh access token code goes here
+            payload = {'grant_type': 'refresh_token', 'refresh_token': auth.user.refresh_token}
+            encoded = base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)
+            headers = {'Authorization': 'Basic ' + encoded}
+            r = requests.post("https://accounts.spotify.com/api/token", data=payload, headers=headers)
+
+            if r.content:
+                response = r.json()
+                new_access_token = response['access_token']
+                db(db.auth_user.id == auth.user.id).update(access_token=new_access_token)
+                auth.user.access_token = new_access_token
+
     
     ####################################
     ##current song and client playlist##
@@ -119,7 +145,7 @@ def user():
     to decorate functions that need access control
     also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users
     """
-    auth.settings.login_next = URL('default', 'callback')
+    # auth.settings.login_next = URL('default', 'callback')
     return dict(form=auth())
 
 

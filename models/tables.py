@@ -10,6 +10,7 @@
 def get_user_first_name():
 	return auth.user.first_name if auth.user else None
 
+
 db.define_table('songs',
                 Field('id'),
                 Field('created_on', 'datetime', default=request.now),
@@ -22,3 +23,8 @@ db.define_table('songs',
 
 # after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
+
+db.auth_user.access_token.writable = False
+#db.auth_user.access_token.readable = False
+db.auth_user.refresh_token.writable = False
+#db.auth_user.refresh_token.readable = False
