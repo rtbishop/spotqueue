@@ -28,3 +28,4 @@ db.auth_user.access_token.writable = False
 #db.auth_user.access_token.readable = False
 db.auth_user.refresh_token.writable = False
 #db.auth_user.refresh_token.readable = False
+db.auth_user.spotify_user_id.writable = False

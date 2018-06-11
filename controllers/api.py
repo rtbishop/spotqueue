@@ -22,10 +22,37 @@ def search_songs():
     songs = content['tracks']['items']
     return response.json(dict(songs=songs))
 
+def get_playlists():
+    user_playlists = None
+
+    headers = {'Authorization': 'Bearer ' + auth.user.access_token}
+    r = requests.get("https://api.spotify.com/v1/me/playlists", headers=headers)
+
+    if r.content:
+        content = r.json()
+        user_playlists = content['items']
+
+    return response.json(dict(user_playlists=user_playlists))
+
+def get_tracks():
+    playlist_id = None
+    playlist_id = request.vars.playlist_id
+    tracks_in_playlist = None
+
+    headers = {'Authorization': 'Bearer ' + auth.user.access_token}
+    r = requests.get("https://api.spotify.com/v1/users/" + auth.user.spotify_user_id + "/playlists/" + playlist_id + "/tracks", headers=headers)
+
+    if r.content:
+        content = r.json()
+        tracks_in_playlist = content['items']
+
+    return response.json(dict(tracks_in_playlist=tracks_in_playlist))
+
 def add_to_queue():
     song_uri = None
     song_uri = request.vars.song_uri
     return response.json(dict(song_uri=song_uri))
+
 
 def get_initial_data():
     print 'made it here'

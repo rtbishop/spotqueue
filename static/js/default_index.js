@@ -47,6 +47,24 @@ var app = function() {
          );
     };
 
+    self.get_playlists = function() {
+        $.getJSON(get_playlists_url,
+            function (data) {
+                self.vue.user_playlists = data.user_playlists;
+            }
+         );
+    };
+
+    self.get_tracks_from_playlist = function(playlist_id) {
+        $.getJSON(get_tracks_url,
+            { playlist_id: playlist_id },
+            function (data) {
+                console.log(data.tracks_in_playlist);
+                self.vue.tracks_in_playlist = data.tracks_in_playlist;
+            }
+         );
+    };
+
     // Complete as needed.
     self.vue = new Vue({
         el: "#vue-div",
@@ -58,16 +76,21 @@ var app = function() {
             //queue: [],
             search: '',
             search_results: [],
+            user_playlists: [],
+            tracks_in_playlist: [],
         },
         methods: {
             search_songs: self.search_songs,
             add_to_queue: self.add_to_queue,
+            get_playlists: self.get_playlists,
+            get_tracks_from_playlist: self.get_tracks_from_playlist,
         }
 
     });
 
     //self.get_songs();
     self.get_initial_data();
+    self.get_playlists();
     $("#vue-div").show();
     return self;
 };

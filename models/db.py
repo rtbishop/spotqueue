@@ -65,6 +65,7 @@ auth = Auth(db, host_names=myconf.get('host.names'))
 auth.settings.extra_fields['auth_user']= [
         Field('access_token', default=None),
         Field('refresh_token', default=None),
+        Field('spotify_user_id', default=None),
     ]
 service = Service()
 plugins = PluginManager()

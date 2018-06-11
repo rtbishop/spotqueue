@@ -55,6 +55,9 @@ def index():
         if r.content:
             content = r.json()
             user_playlists = content['items']
+            spotify_user_id = content['items']['owner']['id']
+            db(db.auth_user.id == auth.user.id).update(spotify_user_id=spotify_user_id)
+            auth.user.spotify_user_id = spotify_user_id
 
     # if access token is in db
     if auth.user is not None and auth.user.access_token:
