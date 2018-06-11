@@ -12,7 +12,7 @@ import base64
 import requests
 import spotipy.util as util
 from itertools import islice
-from credentials import CLIENT_ID, CLIENT_SECRET, SPOTIFY_USER
+from credentials import CLIENT_ID, CLIENT_SECRET, SPOTIFY_USER, ACCESS_TOKEN
 
 def index():
     """
@@ -93,14 +93,19 @@ def index():
     content = r.json()
     token = content['access_token']
 
+    headers = {'Authorization': 'Bearer ' + ACCESS_TOKEN}
+    r = requests.get("https://api.spotify.com/v1/me/player/currently-playing", headers=headers)
     headers = {'Authorization': 'Bearer ' + token}
-    r = requests.get("https://api.spotify.com/v1/users/" + user_id + "/playlists/" + playlist_id + "/tracks", headers=headers)
+    r2 = requests.get("https://api.spotify.com/v1/users/" + user_id + "/playlists/" + playlist_id + "/tracks", headers=headers)
 
 
-    if r.content:
+    if r.status_code == 200:
         content = r.json()
-        current_song = content['items'][0]['track']['name']
-        playlist_tracks = islice(content['items'], 4)
+        current_song = content['item']['name']
+
+    if r2.status_code == 200:
+        content2 = r2.json()
+        playlist_tracks = islice(content2['items'], 4)
 
     return dict(current_song=current_song,playlist_tracks=playlist_tracks,user_playlists=user_playlists)
 

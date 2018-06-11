@@ -39,12 +39,16 @@ var app = function() {
     };
 
     self.add_to_queue = function(song_uri) {
+        console.log("clicked: "+song_uri);
         $.getJSON(add_to_queue_url,
             { song_uri: song_uri },
             function (data) {
-                console.log(data);
+                console.log("add to queue: "+data);
             }
-         );
+        );
+        setTimeout(function(){
+            location.reload(1);
+        }, 800);
     };
 
     self.get_playlists = function() {
