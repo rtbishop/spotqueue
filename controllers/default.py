@@ -44,18 +44,20 @@ def index():
         encoded = base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)
         headers = {'Authorization': 'Basic ' + encoded}
         r = requests.post("https://accounts.spotify.com/api/token", data=payload, headers=headers)
-        response = r.json()
-        access_token = response['access_token']
-        refresh_token = response['refresh_token']
-        db(db.auth_user.id == auth.user.id).update(access_token=access_token, refresh_token=refresh_token)
-        auth.user.access_token = access_token
-        headers = {'Authorization': 'Bearer ' + access_token}
+        if r.status_code == 200:
+            response = r.json()
+            access_token = response['access_token']
+            refresh_token = response['refresh_token']
+            db(db.auth_user.id == auth.user.id).update(access_token=access_token, refresh_token=refresh_token)
+            auth.user.access_token = access_token
+            headers = {'Authorization': 'Bearer ' + access_token}
+
         r = requests.get("https://api.spotify.com/v1/me/playlists", headers=headers)
 
-        if r.content:
+        if r.status_code == 200:
             content = r.json()
             user_playlists = content['items']
-            spotify_user_id = content['items']['owner']['id']
+            spotify_user_id = content['items'][0]['owner']['id']
             db(db.auth_user.id == auth.user.id).update(spotify_user_id=spotify_user_id)
             auth.user.spotify_user_id = spotify_user_id
 
