@@ -4,8 +4,13 @@
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
     var initial_data_url = "{{=URL('api', 'get_initial_data')}}";
-    var get_songs_url = "{{=URL('api', 'get_songs')}}";
+    //var get_songs_url = "{{=URL('api', 'get_songs')}}";
+    var search_songs_url = "{{=URL('api', 'search_songs')}}";
+    var add_to_queue_url = "{{=URL('api', 'add_to_queue')}}";
+    var get_playlists_url = "{{=URL('api', 'get_playlists')}}";
+    var get_tracks_url = "{{=URL('api', 'get_tracks')}}";
 </script>
+
 {{end}}
 
 <div class="main_content">
@@ -22,28 +27,97 @@
           </div>
 
           <div class="container">
-            <!-- Example row of columns -->
+            <!-- Search bar row -->
             <div class="row">
               <div class="col-md-4">
+                <h2>Search Songs:</h2>
+                <form class="form-inline active-purple-3 active-purple-4">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                  <input v-model="search" v-on:blur="search_songs(search)" class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Track name" aria-label="Search">
+                </form>
+              </div>
+            </div>
+            <!-- Search results row -->
+            <div class="row">
+              <div class="col-md-6">
+                <table v-if="search_results.length > 0" class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Artist</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(result, index) in search_results">
+                      <th scope="row">${ ++index }</th>
+                      <td>${ result['name'] }</td>
+                      <td>${ result['artists'][0]['name'] }</td>
+                      <td><button v-on:click="add_to_queue(result['uri'])" class="btn btn-outline-purple btn-sm">Add to Queue</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- Current Song, Queued Songs, Select Playlist -->
+            <div class="row" style="margin-top: 40px">
+              <div class="col-md-4">
                 <h2>Current Song:</h2>
-                <p>{{= current_song }}</p>
-                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
               </div>
               <div class="col-md-4">
                 <h2>Queued Songs:</h2>
-                <ul class="container">
-                  <li>song 1</li>
-                  <li>song 2</li>
-                </ul>
+              </div>
+              <div class="col-md-4">
+                <div class="dropdown">
+                  <h4>Select Playlist
+                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    ${current_user}'s Playlists
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a v-for="playlist in user_playlists" v-on:click="get_tracks_from_playlist(playlist['id'])" class="list-group-item list-group-item-action list-group-item-success">${ playlist['name'] }</a>
+                  </div>
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container">
+            <!-- Example row of columns -->
+            <div class="row">
+              <div class="col-md-4">
+                <div class="list-group">
+                  <a href="#" class="list-group-item list-group-item-action list-group-item-success">{{=current_song}}</a>
+                </div>
+                <br />
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
               </div>
               <div class="col-md-4">
-                <h2>Playlists</h2>
-                <ul class="container">
-                  <li>song 1</li>
-                  <li>song 2</li>
-                </ul>
+                <div class="list-group">
+                  {{ if playlist_tracks is not None: }}
+                    {{ for item in playlist_tracks: }}
+                      {{ if item['track']['name'] != current_song: }}
+                        <a href="#" class="list-group-item list-group-item-action list-group-item-success">{{= item['track']['name'] }}</a>
+                      {{ pass }}
+                    {{ pass }}
+                  {{ pass }}
+                </div>
+                <br />
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+              </div>
+              <div class="col-md-4">
+                  {{ if auth.user is not None: }}
+                    {{ if auth.user.access_token is None: }}
+                      <a href="{{=URL('default', 'callback')}}" class="btn btn-primary">Log in with Spotify</a>
+                    {{ else: }}
+                      <a v-if="tracks_in_playlist.length == 0" class="list-group-item list-group-item-action list-group-item-success">No songs</a>
+                      <a v-for="item in tracks_in_playlist" class="list-group-item list-group-item-action list-group-item-success">
+                          ${ item['track']['name'] }
+                          <br />
+                          <button v-on:click="add_to_queue(item['track']['uri'])" class="btn btn-outline-purple btn-sm">Add to Queue</button>
+                      </a>
+                    {{ pass }}
+                  {{pass}}
               </div>
             </div>
 
@@ -66,7 +140,7 @@
               </div>
             </div>
           </div>
-          
+
           </div>
 
 
@@ -76,7 +150,7 @@
         ================================================== -->
         <!-- Wrap the rest of the page in another container to center all the content. -->
 
-          <div class="container marketing">
+          <div v-if="!logged_in" class="container marketing">
 
             <!-- Three columns of text below the carousel -->
             <br></br>
