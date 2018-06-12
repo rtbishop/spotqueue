@@ -22,7 +22,7 @@ def index():
     return auth.wiki()
     """
 
-    current_song = "No song playing"
+    current_song = {"item": {"name": "No song playing"}}
     playlist_tracks = None
     user_playlists = None
 

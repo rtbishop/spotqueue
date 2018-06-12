@@ -94,8 +94,8 @@
               <div class="col-md-4">
                 <div class="list-group">
                   <a href="#" class="list-group-item list-group-item-action list-group-item-success" style="padding: 10px">
-                    {{ if current_song == "No song playing": }}
-                      {{= current_song }}
+                    {{ if current_song['item']['name'] == "No song playing": }}
+                      {{= current_song['item']['name'] }}
                     {{ else: }}
                       <img src="{{= current_song['item']['album']['images'][2]['url'] }}" align="left" />
                       <span style="margin-left: 6px"><b>{{= current_song['item']['name'] }}</b></span>
