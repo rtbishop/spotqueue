@@ -93,7 +93,16 @@
             <div class="row">
               <div class="col-md-4">
                 <div class="list-group">
-                  <a href="#" class="list-group-item list-group-item-action list-group-item-success">{{=current_song}}</a>
+                  <a href="#" class="list-group-item list-group-item-action list-group-item-success" style="padding: 10px">
+                    {{ if current_song == "No song playing": }}
+                      {{= current_song }}
+                    {{ else: }}
+                      <img src="{{= current_song['item']['album']['images'][2]['url'] }}" align="left" />
+                      <span style="margin-left: 6px"><b>{{= current_song['item']['name'] }}</b></span>
+                      <br />
+                      <span style="margin-left: 6px">By: {{= current_song['item']['album']['artists'][0]['name'] }}</span>
+                    {{ pass }}
+                  </a>
                 </div>
                 <br />
               </div>
@@ -101,8 +110,13 @@
                 <div class="list-group">
                   {{ if playlist_tracks is not None: }}
                     {{ for item in playlist_tracks: }}
-                      {{ if item['track']['name'] != current_song: }}
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-success">{{= item['track']['name'] }}</a>
+                      {{ if item['track']['name'] != current_song['item']['name']: }}
+                        <a href="#" class="list-group-item list-group-item-action list-group-item-success" style="padding: 10px">
+                          <img src="{{= item['track']['album']['images'][2]['url'] }}" align="left" />
+                          <span style="margin-left: 6px"><b>{{= item['track']['name'] }}</b></span>
+                          <br />
+                          <span style="margin-left: 6px">By: {{= item['track']['artists'][0]['name'] }}</span>
+                        </a>
                       {{ pass }}
                     {{ pass }}
                   {{ pass }}

@@ -101,7 +101,7 @@ def index():
 
     if r.status_code == 200:
         content = r.json()
-        current_song = content['item']['name']
+        current_song = content
 
     if r2.status_code == 200:
         content2 = r2.json()
