@@ -10,7 +10,6 @@
 
 import base64
 import requests
-import spotipy.util as util
 from itertools import islice
 from credentials import *
 
@@ -113,8 +112,9 @@ def index():
 
 def callback():
      scope = "playlist-read-private"
-     token = util.prompt_for_user_token(SPOTIFY_USER, scope, client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URI)
-     return "ok"
+     payload = {'client_id': CLIENT_ID, 'response_type': 'code', 'redirect_uri': REDIRECT_URI, 'scope': scope}
+     response = requests.get("https://accounts.spotify.com/authorize", params=payload)
+     redirect(response.url)
 
 def about():
     return dict()
