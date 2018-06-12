@@ -2,7 +2,7 @@
 
 import requests
 import base64
-from credentials import ACCESS_TOKEN
+from credentials import *
 
 def search_songs():
     query = None
@@ -53,7 +53,7 @@ def add_to_queue():
     song_uri = None
     song_uri = request.vars.song_uri
 
-    headers = {'Authorization': 'Bearer ' + ACCESS_TOKEN, 'Content-Type': 'application/json'}
+    headers = {'Authorization': 'Bearer ' + CLIENT_ACCESS_TOKEN, 'Content-Type': 'application/json'}
 
     r = requests.post("https://api.spotify.com/v1/users/" + SPOTIFY_USER + "/playlists/" + PLAYLIST_ID + "/tracks?uris="+song_uri, headers=headers)
 

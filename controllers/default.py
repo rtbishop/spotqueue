@@ -12,7 +12,7 @@ import base64
 import requests
 import spotipy.util as util
 from itertools import islice
-from credentials import CLIENT_ID, CLIENT_SECRET, SPOTIFY_USER, ACCESS_TOKEN
+from credentials import *
 
 def index():
     """
@@ -38,9 +38,8 @@ def index():
     # if access token is NOT already in the db
     if request.vars.code:
         code = request.vars.code
-        redirect_uri = "http://127.0.0.1:8000/spotqueue/default/index"
 
-        payload = {'grant_type': 'authorization_code', 'code': code, 'redirect_uri': redirect_uri}
+        payload = {'grant_type': 'authorization_code', 'code': code, 'redirect_uri': REDIRECT_URI}
         encoded = base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)
         headers = {'Authorization': 'Basic ' + encoded}
         r = requests.post("https://accounts.spotify.com/api/token", data=payload, headers=headers)
@@ -95,7 +94,7 @@ def index():
     content = r.json()
     token = content['access_token']
 
-    headers = {'Authorization': 'Bearer ' + ACCESS_TOKEN}
+    headers = {'Authorization': 'Bearer ' + CLIENT_ACCESS_TOKEN}
     r = requests.get("https://api.spotify.com/v1/me/player/currently-playing", headers=headers)
     headers = {'Authorization': 'Bearer ' + token}
     r2 = requests.get("https://api.spotify.com/v1/users/" + user_id + "/playlists/" + playlist_id + "/tracks", headers=headers)
@@ -113,22 +112,9 @@ def index():
 
 
 def callback():
-
      scope = "playlist-read-private"
-     redirect_uri = "http://127.0.0.1:8000/spotqueue/default/index"
-     token = util.prompt_for_user_token(SPOTIFY_USER, scope, client_id=CLIENT_ID,
-                                        client_secret=CLIENT_SECRET, redirect_uri=redirect_uri)
-    
+     token = util.prompt_for_user_token(SPOTIFY_USER, scope, client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URI)
      return "ok"
-    #redirect(URL('default', 'index'))
-
-
-def test():
-
-    song = None
-
-    return dict(songs=song)
-
 
 def about():
     return dict()
