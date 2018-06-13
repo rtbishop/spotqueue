@@ -3,7 +3,6 @@
 import base64
 import requests
 from itertools import islice
-from credentials import CLIENT_ID, CLIENT_SECRET, SPOTIFY_USER, PLAYLIST_ID, REDIRECT_URI, CLIENT_ACCESS_TOKEN
 
 class Credentials():
 
@@ -111,19 +110,3 @@ class Spotify(object):
             response = r.json()
             tracks_in_playlist = response['items']
         return tracks_in_playlist
-
-
-
-# user_credentials = Credentials(CLIENT_ID, CLIENT_SECRET, SPOTIFY_USER, PLAYLIST_ID, REDIRECT_URI)
-# spotify = Spotify(user_credentials)
-
-# client_credentials = Credentials(CLIENT_ID, CLIENT_SECRET, SPOTIFY_USER, PLAYLIST_ID, REDIRECT_URI, CLIENT_ACCESS_TOKEN)
-# spotify = Spotify(client_credentials)
-#
-# current_song = spotify.get_currently_playing()
-# print current_song
-# playlist_tracks = spotify.get_playlist_tracks()
-# for item in playlist_tracks:
-#     print item['track']['name']
-# search_songs = spotify.search_songs("post malone")
-# print search_songs
