@@ -11,7 +11,7 @@
 import base64
 import requests
 from itertools import islice
-from credentials import *
+from credentials import CLIENT_ID, CLIENT_SECRET, SPOTIFY_USER, PLAYLIST_ID, REDIRECT_URI, CLIENT_ACCESS_TOKEN
 
 def index():
     """
@@ -22,12 +22,7 @@ def index():
     return auth.wiki()
     """
 
-    current_song = {"item": {"name": "No song playing"}}
-    playlist_tracks = None
     user_playlists = None
-
-    user_id = "4392745"
-    playlist_id = "3zJTv5sTYzrQuV2gtgO9MG"
 
 
     #####################
@@ -84,28 +79,11 @@ def index():
     ####################################
     ##current song and client playlist##
     ####################################
-
-    payload = {'grant_type': 'client_credentials'}
-    encoded = base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)
-    headers = {'Authorization': 'Basic ' + encoded}
-
-    r = requests.post("https://accounts.spotify.com/api/token", data=payload, headers=headers)
-    content = r.json()
-    token = content['access_token']
-
-    headers = {'Authorization': 'Bearer ' + CLIENT_ACCESS_TOKEN}
-    r = requests.get("https://api.spotify.com/v1/me/player/currently-playing", headers=headers)
-    headers = {'Authorization': 'Bearer ' + token}
-    r2 = requests.get("https://api.spotify.com/v1/users/" + user_id + "/playlists/" + playlist_id + "/tracks", headers=headers)
-
-
-    if r.status_code == 200:
-        content = r.json()
-        current_song = content
-
-    if r2.status_code == 200:
-        content2 = r2.json()
-        playlist_tracks = islice(content2['items'], 4)
+    client_credentials = Credentials(CLIENT_ID, CLIENT_SECRET, SPOTIFY_USER, PLAYLIST_ID, REDIRECT_URI,
+                                     CLIENT_ACCESS_TOKEN)
+    spotify = Spotify(client_credentials)
+    current_song = spotify.get_currently_playing()
+    playlist_tracks = spotify.get_playlist_tracks()
 
     return dict(current_song=current_song,playlist_tracks=playlist_tracks,user_playlists=user_playlists)
 

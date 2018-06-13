@@ -2,26 +2,24 @@
 
 import requests
 import base64
-from credentials import *
+from credentials import CLIENT_ID, CLIENT_SECRET, SPOTIFY_USER, PLAYLIST_ID, REDIRECT_URI, CLIENT_ACCESS_TOKEN
+
+client_credentials = Credentials(CLIENT_ID, CLIENT_SECRET, SPOTIFY_USER, PLAYLIST_ID, REDIRECT_URI,
+                                     CLIENT_ACCESS_TOKEN)
+spotify = Spotify(client_credentials)
 
 def search_songs():
     query = None
     query = request.vars.query
-
-    payload = {'grant_type': 'client_credentials'}
-    encoded = base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)
-    headers = {'Authorization': 'Basic ' + encoded}
-
-    r = requests.post("https://accounts.spotify.com/api/token", data=payload, headers=headers)
-    content = r.json()
-    token = content['access_token']
-
-    headers = {'Authorization': 'Bearer ' + token}
-    r = requests.get("https://api.spotify.com/v1/search?q=" + query + "&type=track&limit=5", headers=headers)
-    content = r.json()
-
-    songs = content['tracks']['items']
+    songs = spotify.search_songs(query)
     return response.json(dict(songs=songs))
+
+def add_to_queue():
+    song_uri = None
+    song_uri = request.vars.song_uri
+    add_to_queue = spotify.add_to_queue(song_uri)
+    session.flash = T("Success! Song added to the queue")
+    return add_to_queue
 
 def get_playlists():
     user_playlists = None
@@ -48,18 +46,6 @@ def get_tracks():
         tracks_in_playlist = content['items']
 
     return response.json(dict(tracks_in_playlist=tracks_in_playlist))
-
-def add_to_queue():
-    song_uri = None
-    song_uri = request.vars.song_uri
-
-    headers = {'Authorization': 'Bearer ' + CLIENT_ACCESS_TOKEN, 'Content-Type': 'application/json'}
-
-    r = requests.post("https://api.spotify.com/v1/users/" + SPOTIFY_USER + "/playlists/" + PLAYLIST_ID + "/tracks?uris="+song_uri, headers=headers)
-
-    session.flash = T("Success! Song added to the queue")
-
-    return r.content
 
 
 

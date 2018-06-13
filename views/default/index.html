@@ -110,14 +110,14 @@
                 <div class="list-group">
                   {{ if playlist_tracks is not None: }}
                     {{ for item in playlist_tracks: }}
-                      {{ if item['track']['name'] != current_song['item']['name']: }}
+
                         <a href="#" class="list-group-item list-group-item-action list-group-item-success" style="padding: 10px">
                           <img src="{{= item['track']['album']['images'][2]['url'] }}" align="left" />
                           <span style="margin-left: 6px"><b>{{= item['track']['name'] }}</b></span>
                           <br />
                           <span style="margin-left: 6px">By: {{= item['track']['artists'][0]['name'] }}</span>
                         </a>
-                      {{ pass }}
+
                     {{ pass }}
                   {{ pass }}
                 </div>
